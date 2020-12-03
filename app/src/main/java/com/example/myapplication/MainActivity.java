@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -17,7 +18,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import dmax.dialog.SpotsDialog;
+
 public class MainActivity extends AppCompatActivity {
+
+
+    AlertDialog dialog;
 
     String mtype;
     ArrayList<String> categories = new ArrayList<>();
@@ -28,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dialog=new SpotsDialog.Builder().setContext(this).build();
+
+        dialog.show();
+
 
         String url = "https://gaming-panda.df.r.appspot.com/intern_test";
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
@@ -36,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
                     public void onResponse(JSONObject response) {
                         try {
+
+                            dialog.dismiss();
                             Log.d("HEY",""+response);
                             Log.d("HEY",""+response.getJSONArray("response").length());
                             for (int i=0; i<response.getJSONArray("response").length(); i++)
